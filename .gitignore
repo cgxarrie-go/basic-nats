@@ -23,3 +23,10 @@ go.work.sum
 
 # env file
 .env
+
+# vendor directory
+vendor/
+
+# Go module files   
+go.mod
+go.sum
