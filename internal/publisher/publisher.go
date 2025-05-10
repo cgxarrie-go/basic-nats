@@ -10,7 +10,6 @@ import (
 
 	"github.com/cgxarrie-go/basic-nats/internal/config"
 	"github.com/cgxarrie-go/basic-nats/internal/ports"
-
 )
 
 type publisher struct{}
@@ -35,7 +34,8 @@ func (p *publisher) Start() error {
 	n := 1
 
 	for range ticker.C {
-		msg := fmt.Sprintf("Publishing msg %05d: %s ", n, time.Now().Format(time.RFC3339))
+		msg := fmt.Sprintf("Publishing msg %05d: %s ", n,
+			time.Now().Format(time.RFC3339))
 		err := nc.Publish(cfg.NATS.Subject, []byte(msg))
 		if err != nil {
 			log.Printf("Error publishing messages: %v", err)

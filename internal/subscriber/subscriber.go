@@ -36,19 +36,24 @@ func (s *subscriber) Start() error {
 	_, err = nc.Subscribe(
 		config.Get().NATS.Subject,
 		func(msg *nats.Msg) {
-			log.Printf("subscriber %s message received '%s': %s\n", s.name, msg.Subject, string(msg.Data))
+			log.Printf("subscriber %s message received '%s': %s\n",
+				s.name, msg.Subject, string(msg.Data))
 		})
 
 	if err != nil {
-		return errors.Wrapf(err, "subscriber %s subscribing to NATS subject '%s'", s.name, config.Get().NATS.Subject)
+		return errors.Wrapf(err,
+			"subscriber %s subscribing to NATS subject '%s'",
+			s.name, config.Get().NATS.Subject)
 	}
 
-	log.Printf("subscriber %s subsriberd to subject '%s'", s.name, config.Get().NATS.Subject)
+	log.Printf("subscriber %s subsriberd to subject '%s'",
+		s.name, config.Get().NATS.Subject)
 
 	signalChan := make(chan os.Signal, 1)
 	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
 	<-signalChan
-	log.Printf("\nsubscriber %s closing subscription and NATS connection...\n", s.name)
+	log.Printf("\nsubscriber %s closing subscription and NATS connection...\n",
+		s.name)
 
 	return nil
 }
