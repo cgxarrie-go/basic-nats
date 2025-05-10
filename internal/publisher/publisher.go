@@ -8,8 +8,9 @@ import (
 	"emperror.dev/errors"
 	"github.com/nats-io/nats.go"
 
-	"nats-pub/internal/config"
-	"nats-pub/internal/ports"
+	"github.com/cgxarrie-go/basic-nats/internal/config"
+	"github.com/cgxarrie-go/basic-nats/internal/ports"
+
 )
 
 type publisher struct{}
