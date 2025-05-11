@@ -5,8 +5,8 @@ import (
 	"log"
 	"time"
 
-	"emperror.dev/errors"
 	"github.com/nats-io/nats.go"
+	"github.com/pkg/errors"
 
 	"github.com/cgxarrie-go/basic-nats/internal/config"
 	"github.com/cgxarrie-go/basic-nats/internal/ports"
