@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  nats:
+    image: nats:latest
+    ports:
+      - "4222:4222"
+      - "6222:6222"
+      - "8222:8222"
+    networks:
+      - shared-net
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - nats
+    environment:
+      - TICKER_WAIT_SECONDS=5
+      - NUMBER_OF_SUBSCRIBERS=5
+      - NATS_URL=nats://nats:4222
+      - NATS_SUBJECT=docker-test-subject
+    networks:
+      - shared-net
+    command: ["/app/basicnats"]
+
+networks:
+  shared-net:
+    driver: bridge
