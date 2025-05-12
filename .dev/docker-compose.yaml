@@ -1,32 +1,28 @@
-version: '3.8'
-
 services:
   nats:
+    container_name: bnt-nats
     image: nats:latest
     ports:
       - "4222:14222"
       - "6222:16222"
       - "8222:18222"
     networks:
-      - shared-net
+      - bnt-network
 
   app:
+    container_name: bnt-app
     build:
-      context: .
+      context: ../
       dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
     depends_on:
       - nats
+    networks:
+      - bnt-network
     environment:
-      - TICKER_WAIT_SECONDS=5
+      - TICKER_WAIT_SECONDS=5s
       - NUMBER_OF_SUBSCRIBERS=5
       - NATS_URL=nats://nats:4222
       - NATS_SUBJECT=docker-test-subject
-    networks:
-      - shared-net
-    command: ["/app/basicnats"]
 
 networks:
-  shared-net:
-    driver: bridge
+  bnt-network:
