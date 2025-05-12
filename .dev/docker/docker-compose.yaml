@@ -12,17 +12,14 @@ services:
   app:
     container_name: bnt-app
     build:
-      context: ../
+      context: ../../
       dockerfile: Dockerfile
     depends_on:
       - nats
     networks:
       - bnt-network
-    environment:
-      - TICKER_WAIT_SECONDS=5s
-      - NUMBER_OF_SUBSCRIBERS=5
-      - NATS_URL=nats://nats:4222
-      - NATS_SUBJECT=docker-test-subject
+    env_file:
+      - .env
 
 networks:
   bnt-network:
