@@ -2,24 +2,24 @@ package main
 
 import (
 	"fmt"
-	"time"
+
+	"github.com/pkg/errors"
 
 	"github.com/cgxarrie-go/basic-nats/internal/config"
 	"github.com/cgxarrie-go/basic-nats/internal/publisher"
 	"github.com/cgxarrie-go/basic-nats/internal/subscriber"
+
 )
 
 func main() {
 
-	cfg := config.Config{
-		NATS: config.NatsConfig{
-			Url:     "nats://localhost:4222",
-			Subject: "my.tanned.eggs",
-		},
-		NumberOfSubscribers: 5,
-		TickerDuration:      5 * time.Second,
+	cfg, err := config.Load()
+	if err != nil {
+		err = errors.Wrap(err, "loading config")
+		panic(err)
 	}
-	config.Set(&cfg)
+
+	config.Set(cfg)
 
 	pub := publisher.New()
 
